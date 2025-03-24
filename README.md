@@ -1,4 +1,4 @@
-# Restaurante Colombiano - App Móvil
+# Restaurante  - App Móvil
 
 Aplicación móvil desarrollada con React Native y Firebase que incluye sistema de autenticación y menú de platos típicos colombianos.
 
