@@ -9,15 +9,13 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-import { useGuest } from "../context/GuestContext";
-import { useFoods } from "../hooks/useFoods";
+
 import AppLogoImage from "../components/AppLogoImage";
 import DropdownComponent from "../components/DropdownComponent";
 import { useFoodContext } from "../context/FoodContext";
+import LogoutButton from "../components/Profile/Settings/LogoutButton";
 
 const FoodScreen = () => {
-  const { isGuest } = useGuest();
-  console.log("isGuest (Context):", isGuest); // Debería ser true si es invitado
   const [titleInput, setTitleInput] = useState("");
   const [priceInput, setPriceInput] = useState("");
   const [categoryInput, setCategoryInput] = useState("");
@@ -101,10 +99,8 @@ const FoodScreen = () => {
         style={{ height: "80%" }}
       >
         <View style={styles.container}>
+          <LogoutButton/>
           <AppLogoImage />
-          <View style={styles.paramcontainer}>
-            {isGuest && <Text style={styles.welcomeText}>Hola, Invitado</Text>}
-          </View>
           <DropdownComponent />
           {error && <Text style={styles.errorText}>{error}</Text>}
           <TextInput

@@ -8,7 +8,7 @@ export default function App() {
   return (
     <GuestProvider>
     <FoodProvider>
-    <NavigationContainer>
+      <NavigationContainer>
       <SafeAreaView style={styles.container}>
         <MainStackNavigator />
       </SafeAreaView>

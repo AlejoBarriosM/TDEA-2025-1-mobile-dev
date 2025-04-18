@@ -10,6 +10,7 @@ const DropdownButton = () => {
   const [items, setItems] = useState([
     { id: 1, label: 'vicio' },
     { id: 2, label: 'visio' },
+    { id: 3, label: 'servicio' },
   ]);
 
   const handleSelectItem = async (item) => {

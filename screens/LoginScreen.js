@@ -15,7 +15,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInAnonymously} from "firebase/auth";
 import { app } from "../firebaseConfig";
 import AppLogoImage from "../components/AppLogoImage";
 import AppLogoImage2 from "../components/AppLogoImage2";
@@ -31,11 +31,7 @@ export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
 
-  const handleGuestLogin = () => {
-    setIsGuest(true); // Marcamos como invitado
-    navigation.navigate("TabHome"); // Navegamos sin parámetros
-  };
-
+ 
   const setEmailTrim = (text) => {
     setEmail(text.trim());
   };
@@ -61,12 +57,33 @@ export default function Login({ navigation }) {
   const redirectRegister = () => {
     navigation.navigate("RegisterScreen");
   };
+  const handleGuestLogin = () => {
+    const auth = getAuth();
+  signInAnonymously(auth)
+  .then(() => {
+    console.log("Sesion iniciada como invitado");
+    navigation.navigate("TabHome");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "MainStackNavigator" }],
+    });
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  };
+
   const handleSignIn = () => {
     const auth = getAuth(app);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Sesion iniciada:", userCredential.user);
         navigation.navigate("TabHome");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "MainStackNavigator" }],
+        });
       })
       .catch((error) => {
         console.log("Error:", error.message);
@@ -136,7 +153,7 @@ export default function Login({ navigation }) {
                 />
               </View>
             </View>
-            
+
             <TouchableOpacity onPress={handleSignIn} style={styles.loginButton}>
               <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
                 Login
@@ -151,16 +168,15 @@ export default function Login({ navigation }) {
           {!isKeyboardVisible && (
             <View>
               <TouchableOpacity
-              onPress={handleGuestLogin}
-              style={styles.invitadoButton}
+                onPress={handleGuestLogin}
+                style={styles.invitadoButton}
               >
-                <Text style={{ color: "red", }}>
-                  Acceder como invitado
-                </Text>
+                <Text style={{ color: "red" }}>Acceder como invitado</Text>
               </TouchableOpacity>
             </View>
           )}
-          {!isKeyboardVisible && (/*redirectRegister */
+
+          {!isKeyboardVisible /*redirectRegister */ && (
             <View
               style={{ width: "80%", alignSelf: "center", marginTop: "25%" }}
             >
@@ -202,7 +218,7 @@ const styles = StyleSheet.create({
     width: "80%",
     alignSelf: "center",
     marginBottom: "10%",
-    paddingRight: 20, // agregar un paddingRight para dar espacio suficiente
+    paddingRight: 20,
   },
   input: {
     borderWidth: 1,
@@ -257,4 +273,3 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
-

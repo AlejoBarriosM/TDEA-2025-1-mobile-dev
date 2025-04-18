@@ -4,13 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Importa tus pantallas
 import TomatoScreen from "../screens/TomatoScreen";
 import WorkoutScreen from "../screens/WorkoutScreen";
-import OtherScreen from "../screens/OtherScreen";
-import LoginScreen from "../screens/LoginScreen";
 import FoodsScreen from "../screens/FoodsScreen";
+import PurpleScreen from '../screens/PurpleScreen';
 // Para iconos (opcional)
  import { Ionicons } from '@expo/vector-icons';
 import GoldScreen from '../screens/GoldScreen';
-import PurpleScreen from '../screens/PurpleScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +38,7 @@ function TabNavigator() {
          }}
       />
       <Tab.Screen 
-        name="Tomato" 
+        name="Profile" 
         component={TomatoScreen} 
          options={{
            tabBarIcon: ({ color, size }) => (
