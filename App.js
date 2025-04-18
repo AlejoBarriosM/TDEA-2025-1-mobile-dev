@@ -1,26 +1,28 @@
-import React from "react";
+import { Alert, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Register from "./screens/Register";
-import Login from "./screens/Login";
-import DetailsScreen from "./screens/DetailsScreen";
-import HomeScreen from "./screens/HomeScreen";
-import TomatoScreen from "./screens/TomatoScreen";
+import MainStackNavigator from "./Navigation/MainStackNavigator";
+import { FoodProvider } from "./context/FoodContext";
+import { GuestProvider } from "./context/GuestContext";
 
-const Stack = createStackNavigator();
 export default function App() {
   return (
+    <GuestProvider>
+    <FoodProvider>
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login}/>
-        <Stack.Screen name="Tomato" component={TomatoScreen}/>
-        <Stack.Screen name="Home" component={HomeScreen}/>
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Details" component={DetailsScreen}/>
-        
-      </Stack.Navigator>
+      <SafeAreaView style={styles.container}>
+        <MainStackNavigator />
+      </SafeAreaView>
     </NavigationContainer>
+    </FoodProvider>
+    </GuestProvider>
   );
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    /* alignItems: 'center',
+    justifyContent: 'center', */
+  },
+});
