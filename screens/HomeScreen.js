@@ -5,8 +5,8 @@ const HomeScreen = ({ navigation }) => {
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text> Pantalla de Inicio</Text>
       <Button
-        title="Ir a Detalles"
-        onPress={() => navigation.navigate("Details")}
+        title="Ir a Tomato"
+        onPress={() => navigation.navigate("Tomato")}
       />
     </View>
   );
