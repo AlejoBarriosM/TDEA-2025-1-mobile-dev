@@ -15,14 +15,19 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { getAuth, signInWithEmailAndPassword, signInAnonymously} from "firebase/auth";
-import { app } from "../firebaseConfig";
-import AppLogoImage from "../components/AppLogoImage";
-import AppLogoImage2 from "../components/AppLogoImage2";
-import WelcomeText from "../components/WelcomeText";
-import Ready from "../components/Ready";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInAnonymously,
+} from "firebase/auth";
+import { app } from "../../firebaseConfig";
+import AppLogoImage from "../../components/Logo/AppLogoImage";
+import AppLogoImage2 from "../../components/Logo/AppLogoImage2";
+import Ready from "../../components/Logo/Ready";
 import { Ionicons } from "@expo/vector-icons";
-import { useGuest } from "../context/GuestContext";
+import { useGuest } from "../../context/GuestContext";
+import Brand from "../../components/Logo/Brand";
+import BrandText from "../../components/Logo/BrandText";
 
 export default function Login({ navigation }) {
   const { setIsGuest } = useGuest();
@@ -31,7 +36,6 @@ export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
 
- 
   const setEmailTrim = (text) => {
     setEmail(text.trim());
   };
@@ -59,19 +63,19 @@ export default function Login({ navigation }) {
   };
   const handleGuestLogin = () => {
     const auth = getAuth();
-  signInAnonymously(auth)
-  .then(() => {
-    console.log("Sesion iniciada como invitado");
-    navigation.navigate("TabHome");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "MainStackNavigator" }],
-    });
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("Sesion iniciada como invitado");
+        navigation.navigate("TabHome");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TabHome" }],
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   const handleSignIn = () => {
@@ -82,7 +86,7 @@ export default function Login({ navigation }) {
         navigation.navigate("TabHome");
         navigation.reset({
           index: 0,
-          routes: [{ name: "MainStackNavigator" }],
+          routes: [{ name: "TabHome" }],
         });
       })
       .catch((error) => {
@@ -106,34 +110,36 @@ export default function Login({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      /* behavior={Platform.OS === "ios" ? "padding" : "height"} */
       style={{ flex: 1 }}
       keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: "black" }}
         keyboardShouldPersistTaps="handled"
       >
         <View style={{ flex: 1, paddingTop: "35%" }}>
           <View style={{ alignItems: "center", marginBottom: 20 }}>
             <AppLogoImage />
+            <Brand />
           </View>
 
           {!isKeyboardVisible && (
             <View style={styles.headerContainer}>
-              <WelcomeText />
               <Ready />
             </View>
           )}
 
           <View style={styles.formContainer}>
-            <Text>Email:</Text>
+            <Text style={styles.label}>Email:</Text>
             <TextInput
               onChangeText={setEmailTrim}
               style={styles.input}
               autoCapitalize="none"
+              placeholder="Introduce tu email"
+              placeholderTextColor={"white"}
             />
-            <Text>Contraseña:</Text>
+            <Text style={styles.label}>Contraseña:</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View style={{ flexDirection: "row" }}>
                 <TextInput
@@ -141,6 +147,8 @@ export default function Login({ navigation }) {
                   onChangeText={setPasswordTrim}
                   style={[styles.input, { flex: 1 }]}
                   autoCapitalize="none"
+                  placeholder="Introduce tu contraseña"
+                  placeholderTextColor={"white"}
                 />
               </View>
               <View style={{ marginLeft: 10, flexDirection: "column" }}>
@@ -178,14 +186,14 @@ export default function Login({ navigation }) {
 
           {!isKeyboardVisible /*redirectRegister */ && (
             <View
-              style={{ width: "80%", alignSelf: "center", marginTop: "25%" }}
+              style={{ width: "80%", alignSelf: "center", marginTop: "15%" }}
             >
               <TouchableOpacity
                 onPress={redirectRegister}
                 style={styles.redirectRegister}
               >
                 <Text
-                  style={{ color: "#000", fontSize: 18, fontWeight: "bold" }}
+                  style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
                 >
                   Regístrate con nosotros
                 </Text>
@@ -199,7 +207,7 @@ export default function Login({ navigation }) {
                 }}
               >
                 <AppLogoImage2 />
-                <Text style={styles.sideText}>XHealth</Text>
+                <BrandText />
               </View>
             </View>
           )}
@@ -227,6 +235,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 6,
     marginRight: 10,
+    color: "white",
   },
   text: {
     fontSize: 30,
@@ -263,6 +272,7 @@ const styles = StyleSheet.create({
     borderColor: "#0000ff",
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "center",
   },
   invitadoButton: {
     paddingVertical: 1,
@@ -271,5 +281,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
     alignSelf: "center",
+  },
+  label: {
+    marginBottom: 5,
+    fontWeight: "500",
+    color: "white",
   },
 });

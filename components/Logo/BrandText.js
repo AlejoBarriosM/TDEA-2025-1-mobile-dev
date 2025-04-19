@@ -1,25 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
-const WelcomeText = () => {
+const BrandText = () => {
   return (
     <View>
       <Text style={styles.title2}>
-        XHEALTH
+        xhealth
       </Text>
     </View>
   );
 };
 
-export default WelcomeText;
+export default BrandText;
 
 const styles = StyleSheet.create({
-  title1: {
-    fontSize: 40,
-    fontWeight: "500",
-  },
   title2: {
-    fontSize: 40,
-    color: "red",
+    fontSize: 10,
+    color: "white",
     fontWeight: "500",
-    alignSelf:"center"
+    alignSelf:"center",
+    fontStyle: "italic",
   },
 });

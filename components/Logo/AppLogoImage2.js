@@ -2,21 +2,22 @@ import { View,StyleSheet, Image } from "react-native"
 import { useState } from "react";
 
 
-const AppLogoImage = () =>{
+const AppLogoImage2 = () =>{
     return(
-        <Image source={require("../assets/corriendo.png")}
+        <Image source={require("../../assets/logonobg.png")}
         style={styles.image}
         />
     );
     
 };
 
-export default AppLogoImage;
+export default AppLogoImage2;
 
 const styles = StyleSheet.create({
     image: {
-        height:140,
-        width:140,
+        marginbottom:10,
+        height:20,
+        width:20,
     },
 
 })

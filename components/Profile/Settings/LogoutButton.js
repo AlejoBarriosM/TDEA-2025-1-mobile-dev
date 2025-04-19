@@ -55,7 +55,7 @@ const LogoutButton = () => {
           <ActivityIndicator size="small" color="#fff" />
         ) : (
           <>
-            <Text style={styles.buttonText}>Cerrar sesión</Text>
+            {/* <Text style={styles.buttonText}>Cerrar sesión</Text> */}
             <Ionicons name="log-out-outline" size={20} color="#fff" style={styles.icon} />
           </>
         )}

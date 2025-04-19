@@ -10,10 +10,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import AppLogoImage from "../components/AppLogoImage";
-import DropdownComponent from "../components/DropdownComponent";
-import { useFoodContext } from "../context/FoodContext";
-import LogoutButton from "../components/Profile/Settings/LogoutButton";
+import AppLogoImage from "../../components/Logo/AppLogoImage";
+import DropdownComponent from "../../components/DropdownComponent";
+import { useFoodContext } from "../../context/FoodContext";
+import LogoutButton from "../../components/Profile/Settings/LogoutButton";
 
 const FoodScreen = () => {
   const [titleInput, setTitleInput] = useState("");

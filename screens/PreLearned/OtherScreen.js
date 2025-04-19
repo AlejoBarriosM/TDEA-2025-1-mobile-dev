@@ -1,7 +1,7 @@
 // OtherScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
-import { useFirestoreDocument } from '../hooks/useFirestoreDocument';
+import { useFirestoreDocument } from '../../hooks/useFirestoreDocument';
 import { getId } from 'firebase/installations';
 
 const OtherScreen = () => {

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const AppLogoImage = () =>{
     return(
-        <Image source={require("../assets/corriendo.png")}
+        <Image source={require("../../assets/logonobg.png")}
         style={styles.image}
         />
     );
@@ -15,9 +15,8 @@ export default AppLogoImage;
 
 const styles = StyleSheet.create({
     image: {
-        marginbottom:10,
-        height:15,
-        width:15,
+        height:140,
+        width:140,
     },
 
 })

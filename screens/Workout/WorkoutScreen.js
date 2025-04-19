@@ -1,5 +1,5 @@
 import { View, Text } from "react-native"
-import ExploreRoutinesCard from "../components/workout/ExploreRoutinesCard"
+import ExploreRoutinesCard from "../../components/workout/ExploreRoutinesCard"
 import { useNavigation } from "@react-navigation/native"
 
 

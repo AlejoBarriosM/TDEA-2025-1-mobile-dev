@@ -9,9 +9,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import AppLogoImage from "../components/AppLogoImage";
-import WelcomeText from "../components/WelcomeText";
-import Ready from "../components/Ready";
+import Ready from "../../components/Logo/Ready";
 import { TextInput } from "react-native-gesture-handler";
 import React from "react";
 import { useEffect } from "react";
@@ -29,9 +27,9 @@ import {
   documentId,
   orderBy,
 } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { getFirestore } from "firebase/firestore";
-import { firebase } from "../firebaseConfig";
+import { firebase } from "../../firebaseConfig";
 
 const TomatoScreen = () => {
   const navigation = useNavigation();
@@ -319,8 +317,6 @@ const TomatoScreen = () => {
         style={{ height: "80%" }}
       >
         <View style={styles.container}>
-          <AppLogoImage />
-          <WelcomeText />
           <Ready />
           <TextInput
             style={styles.textinput}
