@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VectorIcons from 'react-native-vector-icons/FontAwesome';
-
+import MessagesNavigation from './MessagesNavigation'; 
 import Home from '../screens/HomeScreen';
 import Profile from '../screens/ProfileScreen';
 import Messages from '../screens/MessagesScreen';
@@ -55,7 +55,7 @@ export default function InsideNavigation() {
                             ),
                         }}
             />
-            <Tab.Screen name="MessagesScreen" component={Messages}
+            <Tab.Screen  name="MessagesScreen" component={MessagesNavigation}
                         options={{
                             title: 'Mensajes',
                             tabBarIcon: ({color, size}) => (
