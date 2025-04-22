@@ -13,7 +13,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import AppLogoImage from "../../components/Logo/AppLogoImage";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { app } from "../../firebaseConfig";
 import Brand from "../../components/Logo/Brand";
 import { useUsersContext } from "../../context/UsersContext";
@@ -67,14 +67,19 @@ export default function Register({ navigation }) {
     }
 
     try {
-      // Primero creamos el usuario en Authentication
+      setIsLoading(true);
+      
+
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Luego guardamos los datos adicionales en Firestore
+      await updateProfile(user, {
+        displayName: `${formattedname} ${formattedLastName}`,
+      });
+
       await addUser(formattedname, email, password, formattedLastName, age, gender);
-      
+
       Alert.alert("Éxito", "Usuario registrado correctamente");
       navigation.navigate("LoginScreen");
     } catch (error) {
@@ -91,8 +96,8 @@ export default function Register({ navigation }) {
       }
       
       Alert.alert("Error:", errorMessage);
-    } finally{
-      setLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -196,14 +201,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "500",
-    color: "white",
-    marginTop: 20,
-    fontFamily: "serif",
-    fontStyle: "italic",
-  },
   formContainer: {
     width: '85%',
     alignSelf: 'center',
@@ -237,12 +234,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 'auto',
-    height: 'auto',
-    flex: 1,
-    padding: 0,
-    margin: 0,
-    alignSelf: 'flex-center'
   },
   loginText: {
     color: '#4a9ff5',

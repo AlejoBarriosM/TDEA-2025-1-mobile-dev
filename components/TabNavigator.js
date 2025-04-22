@@ -1,21 +1,19 @@
-//components/TabNavigator.js
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getAuth } from "firebase/auth";
 import { app } from "../firebaseConfig";
-// Importa tus pantallas
+
 import HomeScreen from "../screens/Home/HomeScreen";
 import WorkoutScreen from "../screens/Workout/WorkoutScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
 import RegisterScreen from "../screens/Authentication/RegisterScreen";
-// Para iconos (opcional)
+
 import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const auth = getAuth(app);
 
 function TabNavigator() {
-  // Obtener el usuario actual
   const user = auth.currentUser;
 
   return (
@@ -23,15 +21,16 @@ function TabNavigator() {
       style={{
         position: "absolute",
         bottom: 0,
+        height: "100%",
       }}
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "black", 
+          backgroundColor: "black",
         },
-        tabBarActiveTintColor: "#fff", 
-        tabBarInactiveTintColor: "#fff", 
+        tabBarActiveTintColor: "#3385ff",
+        tabBarInactiveTintColor: "#fff",
       }}
     >
       <Tab.Screen
@@ -39,7 +38,7 @@ function TabNavigator() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" color={"#fff"} size={size} />
+            <Ionicons name="home-outline" color={color} size={size} />
           ),
         }}
       />
@@ -48,11 +47,10 @@ function TabNavigator() {
         component={WorkoutScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="fitness-outline" color={"#fff"} size={size} />
+            <Ionicons name="fitness-outline" color={color} size={size} />
           ),
         }}
       />
-      {/* Mostrar Profile o Register según el estado de autenticación */}
       {user && !user.isAnonymous ? (
         <Tab.Screen
           name="Profile"
@@ -61,7 +59,7 @@ function TabNavigator() {
             tabBarIcon: ({ color, size }) => (
               <Ionicons
                 name="person-circle-outline"
-                color={"#fff"}
+                color={color}
                 size={size}
               />
             ),

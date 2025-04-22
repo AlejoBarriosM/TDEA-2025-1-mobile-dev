@@ -23,22 +23,26 @@ export const useFirestore = () => {
     try {
       setLoading(true);
       setError(null);
-      
+  
       const collections = ["foods", "users", "books"];
       
       for (const collectionName of collections) {
-        const querySnapshot = await getDocs(
-          query(
-            collection(db, collectionName),
-            where("title", "==", targetTitle)
-          )
+        let field = "name"; 
+        if (collectionName === "users") {
+          field = "email"; 
+        }
+  
+        const q = query(
+          collection(db, collectionName),
+          where(field, "==", targetTitle)
         );
-
+        const querySnapshot = await getDocs(q);
+        
         if (!querySnapshot.empty) {
           const doc = querySnapshot.docs[0];
-          const objectid = doc.data().objectid;
+          const objectid = doc.data().objectid || collectionName;
           setLoading(false);
-          return objectid || collectionName;
+          return objectid;
         }
       }
       
@@ -58,22 +62,25 @@ export const useFirestore = () => {
       setError(null);
       
       const colId = await getColId(titleid);
-
+  
       if (!colId) {
         setLoading(false);
         return null;
       }
-
-      const querySnapshot = await getDocs(
-        query(collection(db, colId), where("title", "==", titleid))
+      const field = colId === "users" ? "email" : "name";
+      
+      const q = query(
+        collection(db, colId),
+        where(field, "==", titleid)
       );
-
+      const querySnapshot = await getDocs(q);
+  
       if (!querySnapshot.empty) {
         const docId = querySnapshot.docs[0].id;
         setLoading(false);
         return docId;
       }
-
+  
       setLoading(false);
       return null;
     } catch (err) {
@@ -106,7 +113,7 @@ export const useFirestore = () => {
       const docId = await getId(titleInput);
       
       if (!docId) {
-        setError(`No se encontró documento con título "${titleInput}"`);
+        setError(`No se encontró documento con ${colId === "users" ? "email" : "nombre"} "${titleInput}"`);
         setLoading(false);
         return null;
       }
@@ -121,16 +128,14 @@ export const useFirestore = () => {
         return docData;
       } else {
         setError(`Documento existe en ruta (${colId}/${docId}) pero no tiene datos`);
-        setData({});
         setLoading(false);
-        return {};
+        return null;
       }
     } catch (err) {
       setLoading(false);
       setError(err.message);
       console.error("Error obteniendo datos en getData:", err);
-      setData({});
-      return {};
+      return null;
     }
   };
 

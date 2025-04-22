@@ -25,12 +25,10 @@ import AppLogoImage from "../../components/Logo/AppLogoImage";
 import AppLogoImage2 from "../../components/Logo/AppLogoImage2";
 import Ready from "../../components/Logo/Ready";
 import { Ionicons } from "@expo/vector-icons";
-import { useGuest } from "../../context/GuestContext";
 import Brand from "../../components/Logo/Brand";
 import BrandText from "../../components/Logo/BrandText";
 
 export default function Login({ navigation }) {
-  const { setIsGuest } = useGuest();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -77,12 +75,14 @@ export default function Login({ navigation }) {
         const errorMessage = error.message;
       });
   };
-
+  
   const handleSignIn = () => {
     const auth = getAuth(app);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("Sesion iniciada:", userCredential.user);
+        const user = userCredential.user;
+        const uid = user.uid;
+        console.log("Sesion iniciada:", uid);
         navigation.navigate("TabHome");
         navigation.reset({
           index: 0,
@@ -103,7 +103,7 @@ export default function Login({ navigation }) {
             : error.code === "auth/network-request-failed"
             ? "Error de conexión. Verifica tu internet"
             : "Ocurrió un error al registrar";
-
+  
         Alert.alert("Error", errorMessage);
       });
   };
@@ -118,7 +118,7 @@ export default function Login({ navigation }) {
         contentContainerStyle={{ flexGrow: 1, backgroundColor: "black" }}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={{ flex: 1, paddingTop: "35%" }}>
+        <View style={{ flex: 1, paddingTop: "15%" }}>
           <View style={{ alignItems: "center", marginBottom: 20 }}>
             <AppLogoImage />
             <Brand />
@@ -167,7 +167,7 @@ export default function Login({ navigation }) {
                 Login
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={redirectRegister}>
+            <TouchableOpacity /* onPress={""} */>
               <Text style={styles.forgottenText}>
                 ¿Olvidaste tu contraseña?
               </Text>
@@ -181,8 +181,32 @@ export default function Login({ navigation }) {
               >
                 <Text style={{ color: "red" }}>Acceder como invitado</Text>
               </TouchableOpacity>
+            <View>
+            </View>
+              <TouchableOpacity
+                onPress={() => {
+                  const auth = getAuth(app);
+                  signInWithEmailAndPassword(auth, "admin2@ad.ad", "admin3")
+                    .then((userCredential) => {
+                      const user = userCredential.user;
+                      console.log("Sesión iniciada como admin");
+                      navigation.navigate("TabHome");
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "TabHome" }],
+                      });
+                    })
+                    .catch((error) => {
+                      console.log("Error al iniciar sesión como admin:", error.message);
+                    });
+                }}
+                style={styles.invitadoButton}
+              >
+                <Text style={{ color: "yellow" }}>Acceder como Admin</Text>
+              </TouchableOpacity>
             </View>
           )}
+
 
           {!isKeyboardVisible /*redirectRegister */ && (
             <View

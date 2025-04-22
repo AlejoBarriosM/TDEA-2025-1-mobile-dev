@@ -7,7 +7,7 @@ const WorkoutScreen = () => {
     const navigation = useNavigation();
     return(
 
-    <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+    <View style={{flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"black"}}>
         <Text>WorkoutScreen</Text>
         <ExploreRoutinesCard/>
     </View>

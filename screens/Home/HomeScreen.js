@@ -1,60 +1,273 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from "react-native";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useUsersContext } from "../../context/UsersContext";
+import { Ionicons } from "@expo/vector-icons";
+import AppLogoImage from "../../components/Logo/AppLogoImage";
+import AppLogoImage2 from "../../components/Logo/AppLogoImage2";
+import Brand from "../../components/Logo/Brand";
+import BrandText from "../../components/Logo/BrandText";
 
 const HomeScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Image
-       source={{ uri: "https://picsum.photos/200/300" }}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>Bienvenido a nuestra app</Text>
-      <Text style={styles.subtitle}>Aquí encontrarás información útil y divertida</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Explorar</Text>
-        </TouchableOpacity>
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [inputText, setInputText] = useState("");
+  const { CurrentUser, getUser } = useUsersContext();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser?.email) {
+        try {
+          await getUser(currentUser.email);
+        } catch (err) {
+          console.error("Error getting user:", err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#3498db" />
       </View>
-    </View>
+    );
+  }
+
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+
+        <View style={{ flex: 1, paddingTop: "15%" }}>
+        {user && (
+          <>
+
+            <View style={styles.cardContainer}>
+              <View style={styles.userCard}>
+
+                <View style={styles.imageContainer}>
+                  {user.photoURL ? (
+                    <Image
+                      source={{ uri: user.photoURL }}
+                      style={styles.profileImage}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <View style={styles.profilePlaceholder}>
+                      <Text style={styles.placeholderText}>
+                        {user.displayName?.charAt(0) || user.email?.charAt(0)}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View style={styles.userInfo}>
+                  <Text style={styles.displayName}>
+                    {user.displayName || "Usuario no identificado"}
+                  </Text>
+                  {CurrentUser && (
+                    <Text style={styles.fullName}>
+                      {CurrentUser.name} {CurrentUser.lastname}
+                    </Text>
+                  )}
+                  <Text style={styles.infoText}>
+                    Tiempo como miembro:{" "}
+                    {Math.floor(
+                      (new Date() - new Date(CurrentUser.createdAt)) /
+                        (1000 * 60 * 60 * 24)
+                    )}{" "}
+                    días
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+
+            <View style={{flex: 1, bottom: "10%"}}>
+
+              <View style={styles.logoContainer}>
+                <AppLogoImage />
+                <Brand />
+              </View>
+            
+
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Escribe algo aquí..."
+                  placeholderTextColor="#999"
+                  value={inputText}
+                  onChangeText={setInputText}
+                />
+              </View>
+            </View>
+
+            {!isKeyboardVisible && (
+            <View style={styles.fixedFooter}>
+              <AppLogoImage2 />
+              <BrandText />
+            </View>   
+            )}
+          </>
+        )}
+
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
+    backgroundColor: "#000",
+    padding: 20,
+    paddingBottom: 100, 
+  },
+  loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
   },
-  logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+  cardContainer: {
+    alignItems: "center",
+    marginTop: 35,
+  },
+  userCard: {
+    width: "90%",
+    maxWidth: 300,
+    backgroundColor: "black",
+    borderRadius: 12,
+    padding: 15,
+    shadowColor: "#3498db",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    alignItems: "center",
+  },
+  imageContainer: {
     marginBottom: 20,
   },
-  title: {
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 3,
+    borderColor: "#3498db",
+  },
+  profilePlaceholder: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: "#333",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#3498db",
+  },
+  placeholderText: {
+    fontSize: 60,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  userInfo: {
+    alignItems: "center",
+    width: "100%",
+  },
+  displayName: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  fullName: {
+    fontSize: 16,
+    color: "#ccc",
     marginBottom: 10,
+    textAlign: "center",
   },
-  subtitle: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 20,
+  infoText: {
+    fontSize: 14,
+    color: "#aaa",
+    marginBottom: 15,
+    textAlign: "center",
   },
-  buttonContainer: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  logoContainer: {
+    marginTop: 30,
+    alignItems: "center",
+    marginBottom: 30,
   },
-  button: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 5,
+  inputContainer: {
+    width: "90%",
+    paddingHorizontal: 20,
+    marginBottom: 30,
+    alignSelf: "center",
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
+  textInput: {
+    backgroundColor: "#1a1a1a",
+    color: "#fff",
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#3498db",
+    fontSize: 16,
+  },
+  fixedFooter: {
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    justifyself: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    marginBottom: "10%",
+
+
   },
 });
 
