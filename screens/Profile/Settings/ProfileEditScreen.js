@@ -20,7 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Brand from "../../../components/Logo/Brand";
 import { useNavigation } from "@react-navigation/native";
 
-const ExtendedProfileScreen = () => {
+const ProfileEditScreen = () => {
   const navigation = useNavigation();
 
   const [user, setUser] = useState(null);
@@ -578,4 +578,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExtendedProfileScreen;
+export default ProfileEditScreen;

@@ -46,14 +46,19 @@ const HomeScreen = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      if (currentUser?.email) {
+      if (currentUser) {
         try {
-          await getUser(currentUser.email);
+          // Solo intentamos obtener datos si no es un usuario anónimo y tiene email
+          if (!currentUser.isAnonymous && currentUser.email) {
+            await getUser(currentUser.email);
+          }
         } catch (err) {
           console.error("Error getting user:", err);
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     });
     return unsubscribe;
@@ -76,80 +81,95 @@ const HomeScreen = () => {
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
-
         <View style={{ flex: 1, paddingTop: "15%" }}>
-        {user && (
-          <>
-
-            <View style={styles.cardContainer}>
-              <View style={styles.userCard}>
-
-                <View style={styles.imageContainer}>
-                  {user.photoURL ? (
-                    <Image
-                      source={{ uri: user.photoURL }}
-                      style={styles.profileImage}
-                      resizeMode="cover"
-                    />
+          {user ? (
+            <>
+              <View style={styles.cardContainer}>
+                <View style={styles.userCard}>
+                  {user.isAnonymous ? (
+                    <>
+                      <View style={styles.profilePlaceholder}>
+                        <Ionicons name="person" size={60} color="#fff" />
+                      </View>
+                      <View style={styles.userInfo}>
+                        <Text style={styles.displayName}>Usuario Invitado</Text>
+                        <Text style={styles.infoText}>
+                          Disfruta de acceso básico a la aplicación
+                        </Text>
+                        <Text style={styles.infoText}>
+                          Regístrate para acceder a todas las funciones
+                        </Text>
+                      </View>
+                    </>
                   ) : (
-                    <View style={styles.profilePlaceholder}>
-                      <Text style={styles.placeholderText}>
-                        {user.displayName?.charAt(0) || user.email?.charAt(0)}
-                      </Text>
-                    </View>
+                    <>
+                      <View style={styles.imageContainer}>
+                        {user.photoURL ? (
+                          <Image
+                            source={{ uri: user.photoURL }}
+                            style={styles.profileImage}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <View style={styles.profilePlaceholder}>
+                            <Text style={styles.placeholderText}>
+                              {user.displayName?.charAt(0) ||
+                                user.email?.charAt(0)}
+                            </Text>
+                          </View>
+                        )}
+                      </View>
+                      <View style={styles.userInfo}>
+                        <Text style={styles.displayName}>
+                          {user.displayName || "Usuario no identificado"}
+                        </Text>
+                        {CurrentUser && (
+                          <Text style={styles.fullName}>
+                            {CurrentUser.name} {CurrentUser.lastname}
+                          </Text>
+                        )}
+                        <Text style={styles.infoText}>
+                          Tiempo como miembro:{" "}
+                          {Math.floor(
+                            (new Date() -
+                              new Date(CurrentUser?.createdAt || new Date())) /
+                              (1000 * 60 * 60 * 24)
+                          )}{" "}
+                          días
+                        </Text>
+                      </View>
+                    </>
                   )}
                 </View>
+              </View>
 
-                <View style={styles.userInfo}>
-                  <Text style={styles.displayName}>
-                    {user.displayName || "Usuario no identificado"}
-                  </Text>
-                  {CurrentUser && (
-                    <Text style={styles.fullName}>
-                      {CurrentUser.name} {CurrentUser.lastname}
-                    </Text>
-                  )}
-                  <Text style={styles.infoText}>
-                    Tiempo como miembro:{" "}
-                    {Math.floor(
-                      (new Date() - new Date(CurrentUser.createdAt)) /
-                        (1000 * 60 * 60 * 24)
-                    )}{" "}
-                    días
-                  </Text>
+              <View style={{ flex: 1, bottom: "10%" }}>
+                <View style={styles.logoContainer}>
+                  <AppLogoImage />
+                  <Brand />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="Escribe algo aquí..."
+                    placeholderTextColor="#999"
+                    value={inputText}
+                    onChangeText={setInputText}
+                  />
                 </View>
               </View>
-            </View>
 
-
-            <View style={{flex: 1, bottom: "10%"}}>
-
-              <View style={styles.logoContainer}>
-                <AppLogoImage />
-                <Brand />
-              </View>
-            
-
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Escribe algo aquí..."
-                  placeholderTextColor="#999"
-                  value={inputText}
-                  onChangeText={setInputText}
-                />
-              </View>
-            </View>
-
-            {!isKeyboardVisible && (
-            <View style={styles.fixedFooter}>
-              <AppLogoImage2 />
-              <BrandText />
-            </View>   
-            )}
-          </>
-        )}
-
+              {!isKeyboardVisible && (
+                <View style={styles.fixedFooter}>
+                  <AppLogoImage2 />
+                  <BrandText />
+                </View>
+              )}
+            </>
+          ) : (
+            <Text style={styles.infoText}>No hay usuario autenticado</Text>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#000",
     padding: 20,
-    paddingBottom: 100, 
+    paddingBottom: 100,
   },
   loadingContainer: {
     flex: 1,
@@ -262,12 +282,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: "row",
-    justifyself: "center",
+    justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     marginBottom: "10%",
-
-
   },
 });
 
