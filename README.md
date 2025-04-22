@@ -111,3 +111,24 @@ Keyboard Aware Scroll 0.9.5: Adaptación al teclado
 
 - DeletePassword
 <img src="assets/Preview/deleteaccount.png" width="200">
+
+# Estado de Desarrollo - Aviso Importante 🔄
+## Sección en Desarrollo Activo
+⚠️ Las siguientes funcionalidades se encuentran actualmente en fase de desarrollo y pueden estar sujetas a cambios significativos:
+
+## Módulo de Rutinas y Ejercicios 🏋️‍♂️
+Estado: Implementación inicial en progreso
+
+Características temporales:
+
+Interfaz básica de navegación
+
+Placeholders para contenido futuro
+
+Funcionalidad limitada de demostración
+
+## Módulo de Estadísticas 📊
+Estado: Planificacion de requisitos
+
+## Módulo de Notificaciones, privacidad y soporte
+Estado: Testing aun no implementado
