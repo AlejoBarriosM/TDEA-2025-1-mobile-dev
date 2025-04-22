@@ -233,6 +233,20 @@ const ProfileScreen = () => {
             <Text style={styles.infoText}>
               Bio: {CurrentUser.bio || "No disponible"}
             </Text>
+            <Text style={[styles.infoText, { flexWrap: 'wrap' }]}>
+              Social:{" "}
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL(CurrentUser.link).catch((err) =>
+                    console.error("Error opening link: ", err)
+                  )
+                }
+              >
+                <Text style={{ color: "blue" }}>
+                  {CurrentUser.link || "No disponible"}
+                </Text>
+              </TouchableOpacity>
+            </Text>
           </View>
         )}
         <View style={styles.buttonsContainer}>

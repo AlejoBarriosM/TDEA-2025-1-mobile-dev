@@ -1,17 +1,57 @@
-import { View, Text } from "react-native"
-import ExploreRoutinesCard from "../../components/workout/ExploreRoutinesCard"
-import { useNavigation } from "@react-navigation/native"
-
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import ExploreRoutinesCard from "../../components/workout/ExploreRoutinesCard";
+import NewRoutineCard from "../../components/workout/NewRoutineCard";
+import CreateWorkout from "../../components/workout/CreateWorkout";
 
 const WorkoutScreen = () => {
-    const navigation = useNavigation();
-    return(
+  const navigation = useNavigation();
 
-    <View style={{flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"black"}}>
-        <Text>WorkoutScreen</Text>
-        <ExploreRoutinesCard/>
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        
+        {/* Comienzo rápido */}
+        <Text style={styles.sectionTitle}>Comienzo rápido</Text>
+        <CreateWorkout />
+
+        {/* Rutinas */}
+        <Text style={styles.sectionTitle}>Rutinas</Text>
+        <View style={styles.cardRow}>
+          <NewRoutineCard />
+          <ExploreRoutinesCard />
+        </View>
+
+      </ScrollView>
     </View>
-)
-}
-export default WorkoutScreen
+  );
+};
 
+export default WorkoutScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingTop: 150, // Increased paddingTop to push everything lower
+    paddingBottom: 30,
+  },
+  sectionTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 16,
+  },
+  cardRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 10,
+  },
+});
