@@ -89,4 +89,25 @@ Keyboard Aware Scroll 0.9.5: Adaptación al teclado
 - 
 ## Vista Previa
 - LoginScreen
-<img src="assets/logonobg.png" width="200">
+<img src="assets/Preview/loginscreen.png" width="200">
+
+- RegisterScreen
+<img src="assets/Preview/registerscreen.png" width="200">
+
+- HomeScreen
+<img src="assets/Preview/homescreen.png" width="200">
+
+- ProfileScreen
+<img src="assets/Preview/profilescreen.png" width="200">
+
+- SettingScreen
+<img src="assets/Preview/settingscreen.png" width="200">
+
+- EditProfile
+<img src="assets/Preview/editprofile.png" width="200">
+
+- ChangePassword
+<img src="assets/Preview/changepassword.png" width="200">
+
+- DeletePassword
+<img src="assets/Preview/deleteaccount.png" width="200">
