@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import ExploreRoutinesCard from "../../components/workout/ExploreRoutinesCard";
 import NewRoutineCard from "../../components/workout/NewRoutineCard";
-import CreateWorkout from "../../components/workout/CreateWorkout";
 
 const WorkoutScreen = () => {
   const navigation = useNavigation();
@@ -11,10 +10,6 @@ const WorkoutScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        
-        {/* Comienzo rápido */}
-        <Text style={styles.sectionTitle}>Comienzo rápido</Text>
-        <CreateWorkout />
 
         {/* Rutinas */}
         <Text style={styles.sectionTitle}>Rutinas</Text>
