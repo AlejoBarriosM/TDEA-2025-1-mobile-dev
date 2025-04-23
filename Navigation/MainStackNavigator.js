@@ -11,6 +11,7 @@ import TermsScreen from "../screens/Profile/Settings/TermsScreen";
 import ProfileEditScreen from "../screens/Profile/Settings/ProfileEditScreen";
 import ChangePasswordScreen from "../screens/Profile/Settings/ChangePasswordScreen";
 import DeleteAccountScreen from "../screens/Profile/Settings/DeleteAccountScreen";
+import NewRoutineScreen from "../screens/Workout/subscreens/NewRoutineScreen";
 
 
 
@@ -25,6 +26,7 @@ function MainStackNavigator() {
             <AppStack.Screen name="LoginScreen" component={LoginScreen} />
             <AppStack.Screen name="RegisterScreen" component={RegisterScreen} />
             <AppStack.Screen name="ExploreScreen" component={ExploreScreen} />
+            <AppStack.Screen name="NewRoutineScreen" component={NewRoutineScreen} />
             <AppStack.Screen name="SettingScreen" component={SettingScreen} />
             <AppStack.Screen name="TermsScreen" component={TermsScreen} />
             <AppStack.Screen name="ProfileEditScreen" component={ProfileEditScreen} />

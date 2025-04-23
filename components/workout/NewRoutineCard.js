@@ -9,7 +9,7 @@ const NewRoutineCard = () => {
   return (
     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("NewRoutineScreen")}>
     <Ionicons name="reader-outline" size={32} color="#333" style={styles.icon} />
-    <Text style={styles.title}>Elegir rutina</Text>
+    <Text style={styles.title}>Empezar rutina</Text>
   </TouchableOpacity>
   );
 };
