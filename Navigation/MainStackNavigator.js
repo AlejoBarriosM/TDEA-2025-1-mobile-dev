@@ -1,4 +1,3 @@
-
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "../components/TabNavigator"; 
 import LoginScreen from "../screens/Authentication/LoginScreen";
@@ -12,8 +11,10 @@ import ProfileEditScreen from "../screens/Profile/Settings/ProfileEditScreen";
 import ChangePasswordScreen from "../screens/Profile/Settings/ChangePasswordScreen";
 import DeleteAccountScreen from "../screens/Profile/Settings/DeleteAccountScreen";
 import NewRoutineScreen from "../screens/Workout/subscreens/NewRoutineScreen";
-
-
+import Session1 from "../screens/Workout/subscreens/Subscreensroutine/Session1";
+import Session2 from "../screens/Workout/subscreens/Subscreensroutine/Session2";
+import Session3 from "../screens/Workout/subscreens/Subscreensroutine/Session3";
+import Session4 from "../screens/Workout/subscreens/Subscreensroutine/Session4";
 
 const AppStack = createStackNavigator();
 
@@ -33,6 +34,11 @@ function MainStackNavigator() {
             <AppStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
             <AppStack.Screen name="DeleteAccountScreen" component={DeleteAccountScreen} />
 
+
+            <AppStack.Screen name="Session1" component={Session1} />
+            <AppStack.Screen name="Session2" component={Session2} />
+            <AppStack.Screen name="Session3" component={Session3} />
+            <AppStack.Screen name="Session4" component={Session4} />
 
             <AppStack.Screen name="ProfileScreen" component={ProfileScreen} />
             <AppStack.Screen name="WorkoutScreen" component={WorkoutScreen} />

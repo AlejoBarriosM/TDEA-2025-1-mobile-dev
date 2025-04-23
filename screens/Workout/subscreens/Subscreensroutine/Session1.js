@@ -3,56 +3,63 @@ import { useNavigation } from '@react-navigation/native';
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
-const NewRoutineScreen = () => {
+const Session1 = () => {
   const navigation = useNavigation();
-  const cards = [
+  const exercises = [
     { 
       id: 1, 
-      title: "Sección 1", 
+      title: "Sentadillas", 
       icon: "weight-lifter", 
       color: "#19194d",
-      screen: "Session1"
+      sets: 3,
+      reps: 12
     },
     { 
       id: 2, 
-      title: "Sección 2", 
-      icon: "walk", 
+      title: "Peso Muerto", 
+      icon: "weight", 
       color: "#19194d",
-      screen: "Session2"
+      sets: 3,
+      reps: 10
     },
     { 
       id: 3, 
-      title: "Sección 3", 
-      icon: "rowing", 
+      title: "Press de Banca", 
+      icon: "dumbbell", 
       color: "#19194d",
-      screen: "Session3"
+      sets: 3,
+      reps: 12
     },
     { 
       id: 4, 
-      title: "Sección 4", 
-      icon: "diving", 
+      title: "Remo con Barra", 
+      icon: "weight-lifter", 
       color: "#19194d",
-      screen: "Session4"
+      sets: 3,
+      reps: 12
     },
   ];
   
   return (
     <View style={styles.container}>
-      {cards.map((card) => (
+      {exercises.map((exercise) => (
         <TouchableOpacity
-          key={card.id}
-          style={[styles.card, { backgroundColor: card.color }]}
-          onPress={() => navigation.navigate(card.screen)} 
+          key={exercise.id}
+          style={[styles.card, { backgroundColor: exercise.color }]}
+          onPress={() => navigation.navigate('ExerciseDetail', { exercise })}
         >
-          <Icon name={card.icon} size={30} color="white" style={styles.icon} />
-          <Text style={styles.cardText}>{card.title}</Text>
+          <Icon name={exercise.icon} size={30} color="white" style={styles.icon} />
+          <View style={styles.exerciseInfo}>
+            <Text style={styles.cardText}>{exercise.title}</Text>
+            <Text style={styles.setsReps}>{exercise.sets} series x {exercise.reps} repeticiones</Text>
+          </View>
         </TouchableOpacity>
       ))}
     </View>
   );
 };
 
-export default NewRoutineScreen;
+export default Session1;
 
 const styles = StyleSheet.create({
   container: {
@@ -64,7 +71,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "90%", 
-    height: 70, 
+    height: 80, 
     borderRadius: 12,
     marginVertical: 8,
     paddingHorizontal: 20,
@@ -77,11 +84,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
   },
+  exerciseInfo: {
+    marginLeft: 15,
+  },
   cardText: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 15,
+  },
+  setsReps: {
+    color: "white",
+    fontSize: 14,
+    opacity: 0.8,
   },
   icon: {
     marginRight: 10,
