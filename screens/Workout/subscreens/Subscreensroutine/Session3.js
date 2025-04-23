@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import React from "react";
+import React, { useState } from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
 const Session3 = () => {
   const navigation = useNavigation();
+  const [completedExercises, setCompletedExercises] = useState([]);
+  
   const exercises = [
     { 
       id: 1, 
@@ -39,14 +41,29 @@ const Session3 = () => {
       reps: 20
     },
   ];
+
+  const handleExercisePress = (exerciseId) => {
+    setCompletedExercises(prev => {
+      if (prev.includes(exerciseId)) {
+        return prev.filter(id => id !== exerciseId);
+      } else {
+        return [...prev, exerciseId];
+      }
+    });
+  };
   
   return (
     <View style={styles.container}>
       {exercises.map((exercise) => (
         <TouchableOpacity
           key={exercise.id}
-          style={[styles.card, { backgroundColor: exercise.color }]}
-          onPress={() => navigation.navigate('ExerciseDetail', { exercise })}
+          style={[
+            styles.card, 
+            { 
+              backgroundColor: completedExercises.includes(exercise.id) ? "#4CAF50" : exercise.color 
+            }
+          ]}
+          onPress={() => handleExercisePress(exercise.id)}
         >
           <Icon name={exercise.icon} size={30} color="white" style={styles.icon} />
           <View style={styles.exerciseInfo}>

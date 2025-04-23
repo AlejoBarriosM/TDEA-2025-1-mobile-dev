@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from "react";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Session1 = () => {
   const navigation = useNavigation();
