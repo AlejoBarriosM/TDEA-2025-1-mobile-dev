@@ -12,15 +12,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#011F26"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/Logo.png",
-        "backgroundColor": "#011F26"
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB7WZM7q1LItjDATGrc8Q0RH4M0HHcAJNw"
+        }
       },
       "package": "com.anonymous.bookexchangecommunity"
+    },
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyB7WZM7q1LItjDATGrc8Q0RH4M0HHcAJNw"
+      }
+    },
+    "extra": {
+      "GOOGLE_MAPS_JS_KEY": "AIzaSyB7WZM7q1LItjDATGrc8Q0RH4M0HHcAJNw"
     },
     "web": {
       "favicon": "./assets/favicon.png"
