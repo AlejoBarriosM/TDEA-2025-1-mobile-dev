@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
-import { useRoutinesContext } from '../../../../context/RoutinesContext';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
+import { useRoutinesContext } from "../../../../context/RoutinesContext";
 
 const FullBodyRoutine = () => {
   const { routines, getRoutine, loading } = useRoutinesContext();
@@ -10,21 +16,19 @@ const FullBodyRoutine = () => {
   useEffect(() => {
     const loadFullBodyRoutine = async () => {
       try {
-        // Buscar la rutina por nombre en la lista cargada
-        const fullBodyRoutine = routines.find(r => 
-          r.name.toLowerCase() === 'fullbodyroutine' || 
-          r.name.toLowerCase() === 'full body routine'
+        const fullBodyRoutine = routines.find(
+          (r) =>
+            r.name.toLowerCase() === "fullbodyroutine" ||
+            r.name.toLowerCase() === "full body routine"
         );
-
         if (fullBodyRoutine) {
-          // Obtener detalles completos de la rutina
           const details = await getRoutine(fullBodyRoutine.id);
           setRoutineDetails(details);
         } else {
-          setError('No se encontró la rutina Full Body');
+          setError("No se encontró la rutina Full Body");
         }
       } catch (err) {
-        setError('Error al cargar la rutina');
+        setError("Error al cargar la rutina");
         console.error(err);
       }
     };
@@ -60,8 +64,12 @@ const FullBodyRoutine = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.header}>
         <Text style={styles.title}>{routineDetails.name}</Text>
-        <Text style={styles.subtitle}>Dificultad: {routineDetails.difficulty}</Text>
-        <Text style={styles.duration}>Duración: {routineDetails.duration} minutos</Text>
+        <Text style={styles.subtitle}>
+          Dificultad: {routineDetails.difficulty}
+        </Text>
+        <Text style={styles.duration}>
+          Duración: {routineDetails.duration} minutos
+        </Text>
       </View>
 
       <View style={styles.section}>
@@ -89,60 +97,60 @@ const FullBodyRoutine = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
   },
   header: {
     marginBottom: 20,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   duration: {
     fontSize: 16,
-    color: '#666',
-    fontStyle: 'italic',
+    color: "#666",
+    fontStyle: "italic",
   },
   section: {
     marginBottom: 25,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#444',
+    fontWeight: "600",
+    color: "#444",
     marginBottom: 10,
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#555',
+    color: "#555",
   },
   exerciseCard: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 15,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -150,21 +158,21 @@ const styles = StyleSheet.create({
   },
   exerciseName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
-    color: '#333',
+    color: "#333",
   },
   exerciseDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     fontSize: 16,
   },
   text: {
     fontSize: 18,
-    color: '#333',
+    color: "#333",
   },
 });
 
