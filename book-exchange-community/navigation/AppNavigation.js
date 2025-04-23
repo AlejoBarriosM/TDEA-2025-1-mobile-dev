@@ -7,21 +7,23 @@ import {AppContext} from "../context/AppContext";
 
 const Tab = createBottomTabNavigator();
 
-
 export default function AppNavigation() {
     const {isAuthenticated} = React.useContext(AppContext);
-    console.log(isAuthenticated)
     return (
+
         <Tab.Navigator
+            id="app-tab"
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarStyle: {display: "none"}
-            }}>
+            }}
+        >
             {isAuthenticated ?
-                <Tab.Screen name="Inside" component={InsideNavigation}/> :
-                <Tab.Screen name="Auth" component={AuthNavigation}/>}
-
+                <Tab.Screen name="Inside" component={InsideNavigation}/>
+                :
+                <Tab.Screen name="Auth" component={AuthNavigation}/>
+            }
         </Tab.Navigator>
     );
 }
