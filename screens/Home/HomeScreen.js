@@ -48,7 +48,6 @@ const HomeScreen = () => {
       setUser(currentUser);
       if (currentUser) {
         try {
-          // Solo intentamos obtener datos si no es un usuario anónimo y tiene email
           if (!currentUser.isAnonymous && currentUser.email) {
             await getUser(currentUser.email);
           }
