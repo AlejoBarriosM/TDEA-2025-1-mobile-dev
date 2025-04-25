@@ -1,11 +1,12 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VectorIcons from 'react-native-vector-icons/FontAwesome';
-
+import MessagesNavigation from './MessagesNavigation'; 
 import Home from '../screens/HomeScreen';
 import Profile from '../screens/ProfileScreen';
 import Messages from '../screens/MessagesScreen';
 import Search from '../screens/SearchScreen';
+import WebMapScreen from '../screens/WebMapScreen'; 
 import AddBookNavigation from "./AddBookNavigation";
 
 const Tab = createBottomTabNavigator();
@@ -39,7 +40,7 @@ export default function InsideNavigation() {
                             ),
                         }}
             />
-            <Tab.Screen name="Search" component={Search}
+            <Tab.Screen name="Search" component={WebMapScreen}
                         options={{
                             title: 'Buscar',
                             tabBarIcon: ({color, size}) => (
@@ -55,7 +56,7 @@ export default function InsideNavigation() {
                             ),
                         }}
             />
-            <Tab.Screen name="MessagesScreen" component={Messages}
+            <Tab.Screen  name="MessagesScreen" component={MessagesNavigation}
                         options={{
                             title: 'Mensajes',
                             tabBarIcon: ({color, size}) => (
